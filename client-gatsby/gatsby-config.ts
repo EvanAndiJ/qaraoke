@@ -20,6 +20,14 @@ const config: GatsbyConfig = {
         path: `${__dirname}/blog`,
       }
     },
+    {
+      resolve: "gatsby-source-pg",
+      options: {
+        connectionString: process.env.LOC_CONNECTION_STRING,
+        schema: "public",
+        refetchInterval: 60, // Refetch data every 60 seconds
+      },
+    },
   ],
 }
 

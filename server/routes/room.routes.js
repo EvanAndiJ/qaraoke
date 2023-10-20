@@ -1,5 +1,5 @@
-// const { verifySignUp } = require("../middleware");
-const controller = require("../controllers/room.controller");
+const { authJwt } = require("../middleware");
+const roomCon = require("../controllers/room.controller");
 module.exports = function(app) {
 
 app.use(function(req, res, next) {
@@ -12,11 +12,10 @@ app.use(function(req, res, next) {
 
 
 app.post("/api/room/create",
-//   [
-//     verifySignUp.checkDuplicateUserEmail,
-//     verifySignUp.checkRolesExisted
-//   ],
-//   controller.signup
+  [
+    authJwt.verifyToken,
+  ],
+  roomCon.createRoom
 );
 
 };

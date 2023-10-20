@@ -39,6 +39,14 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
+db.room.hasOne(db.user)
+db.user.hasMany(db.room, {
+    foreignKey: {
+        name:'hostId',
+        allowNull: false,
+    }
+})
+
 
 db.ROLES = ["user", "host", "mod", "admin"];
 
