@@ -1,35 +1,24 @@
 {
   "name": "qaraoke",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "qaraoke",
-  "author": "Evan Jones",
-  "keywords": [
-    "gatsby"
-  ],
   "scripts": {
-    "dev": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "typecheck": "tsc --noEmit"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@mdx-js/react": "^2.3.0",
-    "gatsby": "^5.12.4",
-    "gatsby-plugin-image": "^3.12.1",
-    "gatsby-plugin-mdx": "^5.12.1",
-    "gatsby-plugin-sharp": "^5.12.1",
-    "gatsby-source-filesystem": "^5.12.0",
-    "gatsby-transformer-sharp": "^5.12.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "13.5.6"
   },
   "devDependencies": {
-    "@types/node": "^20.3.3",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
-    "typescript": "^5.1.6"
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.6"
   }
 }
