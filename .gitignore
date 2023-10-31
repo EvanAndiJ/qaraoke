@@ -1,7 +1,12 @@
 node_modules/
+server/
 .cache/
 public
 src/gatsby-types.d.ts
 .env
 client/
 .gitignore
+old/v1/
+.next/
+.gitignore
+old/

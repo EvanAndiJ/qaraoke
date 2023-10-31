@@ -1,12 +1,33 @@
 import Image from 'next/image'
 import styles from './page.module.css'
+import Link from 'next/link'
+
 
 export default function Home() {
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
+      
+
+      <div className={styles.center}>
+        <div className={styles.logo}>
+          <h1>Qaraoke</h1>
+          <h6>The easy way to sing</h6>
+        </div>
+        <div className={styles.inputArea}>
+          <input type="text" placeholder="Find a Room"/>
+          <div>
+            <Link href='./rooms'>Browse Rooms</Link>
+            <Link href='./login'>Log In</Link>
+            {/* <button onClick={()=>router.push('/rooms')}>Browse Rooms</button>
+            <button onClick={()=>router.push('/login')}>Log In</button> */}
+          </div>
+        </div>
+      </div>
+
+      {/* <div className={styles.description}>
         <p>
-          Get started by editing&nbsp;
+          Get farted by editing&nbsp;
           <code className={styles.code}>src/app/page.tsx</code>
         </p>
         <div>
@@ -26,20 +47,9 @@ export default function Home() {
             />
           </a>
         </div>
-      </div>
+      </div> */}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
+      {/* <div className={styles.grid}>
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
           className={styles.card}
@@ -89,7 +99,7 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
+      </div> */}
     </main>
   )
 }

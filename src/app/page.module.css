@@ -74,13 +74,14 @@
 
 .center {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   padding: 4rem 0;
 }
 
-.center::before {
+/* .center::before {
   background: var(--secondary-glow);
   border-radius: 50%;
   width: 480px;
@@ -102,10 +103,14 @@
   position: absolute;
   filter: blur(45px);
   transform: translateZ(0);
-}
+} */
 
 .logo {
   position: relative;
+}
+
+.inputArea {
+  text-align: center;
 }
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
