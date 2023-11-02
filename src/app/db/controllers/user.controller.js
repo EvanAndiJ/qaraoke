@@ -1,4 +1,4 @@
-var db = require("../models");
+var db = require("@/db/models");
 var User = db.user;
 var Op = db.Sequelize.Op;
 var bcrypt = require("bcryptjs");

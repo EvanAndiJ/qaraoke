@@ -1,0 +1,10 @@
+.credentials {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signupCreds {
+    /* align-items: end; */
+    margin: auto
+}

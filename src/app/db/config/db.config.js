@@ -15,8 +15,8 @@ process.env.NODE_ENV === 'production'
   }
 : { 
   host: 'localhost',
-  user: 'pots',
-  password: 'password',
+  user: 'postgres',
+  password: 'Chesntut!',
   db: 'qaraoke',
   dialect: "postgres",
   pool: {

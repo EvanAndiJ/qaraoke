@@ -17,7 +17,7 @@ export default function Home() {
         <div className={styles.inputArea}>
           <input type="text" placeholder="Find a Room"/>
           <div>
-            <Link href='./rooms'>Browse Rooms</Link>
+            <Link href='./r'>Browse Rooms</Link>
             <Link href='./login'>Log In</Link>
             {/* <button onClick={()=>router.push('/rooms')}>Browse Rooms</button>
             <button onClick={()=>router.push('/login')}>Log In</button> */}
