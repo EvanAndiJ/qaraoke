@@ -1,4 +1,9 @@
 'use server'
+ 
+import { redirect } from 'next/navigation'
+import { revalidateTag } from 'next/cache'
+import { cache } from 'react';
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -13,10 +18,10 @@ export async function signUp (formData: FormData){
     const password = formData.get('password')
 
     const prevEmail = await User.findOne({ where: { email: {[Op.iLike]: email } } })
-    if (prevEmail) { return {err: 'email already registered'}}
+    if (prevEmail) { new Error('email already registered')}
 
     const prevUser = await User.findOne({ where: {username: {[Op.iLike]: username} }})
-    if (prevUser) { return {err: 'Username unavailable'} }
+    if (prevUser) { new Error('Username unavailable')}
 
     const user = await User.create({
       name: name,
@@ -29,19 +34,30 @@ export async function signUp (formData: FormData){
     console.log('signed up')
 }
 
-export async function login (formData: FormData) {
+export const login = cache( async(formData: FormData) => {
     const username = formData.get('username');
     const user = await User.findOne({
         where: { username: {[Op.iLike]: username}},
-        attributes: ['id', 'username', 'name', 'email', 'password'], 
     });
-    if (!user) { return {err: 'User not found'}};
-
+    if (!user) { return {err: new Error('User not found')}};
+    
     const password = formData.get('password');
     const passIsValid = bcrypt.compareSync(password, user.password);
-    if (!passIsValid) { return {err: 'Password incorrect'}}
+    if (!passIsValid) {
+      console.log('wrong p')
+      return {err: new Error('Password Incorrect')}
+    }
+    else {
+      const token = jwt.sign({id: user.id}, process.env.SECRET, {expiresIn: 86400})
+      const userData = {
+        id: user.id, 
+        username: user.username, 
+        name: user.name, 
+        email: user.email, 
+        token: token
+      }
+      console.log('login', userData)
+      return {user: userData}
+    }
 
-    const token = jwt.sign({id: user.id}, process.env.SECRET, {expiresIn: 86400})
-    console.log('login')
-    return {user: {id: user.id, username: user.username, name: user.name, email: user.email, token: token}}
-  }
+  })

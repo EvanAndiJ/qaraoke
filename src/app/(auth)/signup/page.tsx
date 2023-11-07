@@ -1,19 +1,19 @@
   import style from '../login.module.css'
-  import { useFormState, useFormStatus } from 'react-dom'
   import { signUp } from '@/app/actions'
-  const initialState = {
-    message:null,
-  }
 
   export default function Signup() {
     // const {pending} = useFormStatus()
     // //@ts-ignore
     // const [state, formAction] = useFormState(signUp)
+    const handleSignUp = (formData: FormData) => {
+      const res = signUp(formData)
+      
+    }
 
     return (
     <main>
       <h1>Sign  Up</h1>
-      <form className={`${style.credentials} ${style.signupCreds}`} action={signUp}>
+      <form className={`${style.credentials} ${style.signupCreds}`} action={handleSignUp}>
         <label htmlFor="username">Username:
           <input type="text" name="username" id="username" required/></label>
         <label htmlFor="name">Name:
