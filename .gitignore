@@ -3,3 +3,5 @@ node_modules/
 public
 src/gatsby-types.d.ts
 server/.env
+blog/
+next/
