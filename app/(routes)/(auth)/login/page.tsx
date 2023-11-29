@@ -13,7 +13,7 @@ export default function Login() {
       <LoginForm/>
 
       <p> Don't have an account?
-        <Link href='/signup'>Sign Up!</Link>
+        <Link href={'/signup'}>Sign Up!</Link>
       </p>
 
     </div>

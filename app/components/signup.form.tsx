@@ -5,7 +5,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 
   
 export default function SignupForm () {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: '', errors: {} };
   const [state, dispatch] = useFormState(signup, initialState);
 
     return (
