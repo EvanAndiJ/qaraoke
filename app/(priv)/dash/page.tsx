@@ -1,18 +1,18 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
+import SideBar from '../../ui/SideBar';
  
 export const metadata: Metadata = {
-  title: 'Feed',
+  title: 'Dashboard',
 };
  
-export default async function Page() {
-    // const revenue = await fetchRevenue();
+export default async function Dashboard() {
     
   return (
     <>
       {/* <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}> */}
       <h1 className={`mb-4 text-xl md:text-2xl`}>
-        Feed
+        Dashboard
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* <Suspense fallback={<CardsSkeleton />}>

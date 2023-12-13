@@ -1,6 +1,6 @@
-export function generateStaticParams() {
-    return [{ user: 'evan' }, { user: 'pat' }, { user: 'bird' }]
-}
+// export function generateStaticParams() {
+//     return [{ user: 'evan' }, { user: 'pat' }, { user: 'bird' }]
+// }
 
 export default function UserProfilePage({ params }: { params: { user: string } }) {
     const { user } = params

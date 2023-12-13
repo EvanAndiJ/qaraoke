@@ -3,20 +3,10 @@
 import {z} from 'zod';
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { cache } from 'react';
 import { signIn } from '../../auth';
 import { sql } from '@vercel/postgres';
 import type { User } from './definitions';
-
-
-
-// const bcrypt = require("bcryptjs");
 import bcrypt from 'bcrypt'
-const jwt = require("jsonwebtoken");
-
-// const db = require("./db/models");
-// const Op = db.Op 
-// const User = db.user;
 
 const SignupFormSchema = z.object({
   // id: z.string(),
@@ -29,9 +19,9 @@ const SignupFormSchema = z.object({
   password: z.string({
     invalid_type_error: 'Please enter a password.',
   }),
-  name: z.string({
-    invalid_type_error: 'Please enter a password.',
-  }),
+  // name: z.string({
+  //   invalid_type_error: 'Please enter a password.',
+  // }),
   date: z.string(),
 });
 
@@ -47,6 +37,7 @@ export type State = {
 const SignupForm = SignupFormSchema.omit({ id: true, date: true });
 
 export async function signup ( prevState: State, formData: FormData,) {
+  console.log('signup')
   const validatedFields = SignupForm.safeParse({
     username: formData.get('username'),
     email: formData.get('email'),
@@ -54,6 +45,7 @@ export async function signup ( prevState: State, formData: FormData,) {
   });
 
   if (!validatedFields.success) {
+    console.log('fields bad', validatedFields.error.flatten().fieldErrors)
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to signup user.',
@@ -61,36 +53,24 @@ export async function signup ( prevState: State, formData: FormData,) {
   }
 
   const {username, email, password} = validatedFields.data
-  const date = new Date().toISOString().split('T')[0];
+  const date = new Date().toISOString();
 
-  // try {
-  //   const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-  //   return user.rows[0];
-  // } catch (error) {
-  //   console.error('Failed to fetch user:', error);
-  //   throw new Error('Failed to fetch user.');
-  // }
-  // const prevEmail = await User.findOne({ where: { email: {[Op.iLike]: email } } })
-  // if (prevEmail) { throw new Error('email already registered')}
   const prevEmail = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-  if (prevEmail.rows.length) { return {errors: {}, message: 'email already registered'}}
+  if (prevEmail.rows.length) { console.log('prev email'); 
+    return {errors: {}, message: 'email already registered'}
+  }
 
-  // const prevUser = await User.findOne({ where: {username: {[Op.iLike]: username}s }})
-  // if (prevUser) { new Error('Username unavailable')}
   const prevUser = await sql<User>`SELECT * FROM users WHERE username=${username}`;
-  if (prevUser.rows.length) { return {errors: {}, message: 'Username unavailable'}}
+  if (prevUser.rows.length) { console.log('prev user'); 
+    return {errors: {}, message: 'Username unavailable'}
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   
   try {
-    // const user = await User.create({
-    //   username: username,
-    //   email: email,
-    //   password: bcrypt.hashSync(password ? password : '', 8)
-    // })
     await sql`
-    INSERT INTO users (username, email, password, date)
-    VALUES (${username}, ${email}, ${hashedPassword}, ${date})
+    INSERT INTO users (username, email, password, created, updated)
+    VALUES (${username}, ${email}, ${hashedPassword}, ${date}, ${date})
     `;
     console.log('signed up') 
 
@@ -108,7 +88,9 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    await signIn('credentials', Object.fromEntries(formData));
+    const user = await signIn('credentials', Object.fromEntries(formData));
+    console.log('authenticate', user)
+    
   } catch (error) {
     if ((error as Error).message.includes('CredentialsSignin')) {
       return 'CredentialsSignin';

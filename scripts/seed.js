@@ -73,7 +73,7 @@ async function seedRooms(client) {
     const insertedRooms = await Promise.all(
       rooms.map(
         (room) => client.sql`
-        INSERT INTO rooms (host_id, name, status, date)
+        INSERT INTO rooms (host_id, name, loc, date, created, updated)
         VALUES (${room.host_id}, ${room.name}, ${room.loc}, 
           ${room.date}, ${room.created}, ${room.updated})
         ON CONFLICT (id) DO NOTHING;

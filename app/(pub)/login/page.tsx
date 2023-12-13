@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import styles from '../../../styles/auth.module.css'
+import styles from '../../styles/auth.module.css'
 import { redirect } from 'next/navigation';
-import LoginForm from '../../../components/login.form';
+import LoginForm from '../../ui/auth/login.form';
 
 
 export default function Login() {

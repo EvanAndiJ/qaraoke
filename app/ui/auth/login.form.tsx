@@ -1,23 +1,8 @@
 'use client'
-import styles from '../styles/auth.module.css'
+import styles from '../../styles/auth.module.css'
 
-import { authenticate } from '../lib/actions';
+import { authenticate } from '../../lib/actions';
 import { useFormState, useFormStatus } from 'react-dom';
-
-// const handleLogin = async (formData: FormData) => {
-//     'use server'
-//     const res = await login(formData)
-//     // const res = await fetch('http://localhost:3000/api/auth/login',{
-//     //     method: 'POST',
-//     //     headers: {
-//     //       'content-type':'application/json',
-//     //     },
-//     //     body: JSON.stringify({formData})
-//     //   })
-//     // .then(res => res.json()))
-//     console.log(res)
-// }
-
   
 export default function LoginForm () {
 

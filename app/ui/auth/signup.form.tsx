@@ -1,6 +1,6 @@
 'use client'
-import { signup } from '../lib/actions'
-import styles from '../styles/auth.module.css'
+import { signup } from '../../lib/actions'
+import styles from '../../styles/auth.module.css'
 import { useFormState, useFormStatus } from 'react-dom';
 
   
@@ -14,10 +14,10 @@ export default function SignupForm () {
             <input type="text"
             name="username" id="username" required/>
           </label>
-          <label htmlFor="name">Name:
+          {/* <label htmlFor="name">Name:
             <input type="text"
             name="name" id="name" required/>
-          </label>
+          </label> */}
           <label htmlFor="email">Email:
             <input type="email"
              name="email" id="email" required/>

@@ -1,9 +1,12 @@
-import TopBar from "../components/TopBar";
+import NavMenu from "../ui/NavMenu";
 
 export default function AuthLayout({ children }:{children: React.ReactNode}) {
   return (
-    <main> 
-      <TopBar/>
+    <main>
+      <div>
+          <h1>Qaraoke</h1>
+      </div>
+      <NavMenu/>
       {children} 
       </main>
   )
