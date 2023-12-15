@@ -1,6 +1,22 @@
-
+// 'use server'
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
+import type { User } from '../lib/definitions';
+
+
+
+export async function getUser(email: string): Promise<User | undefined> {
+
+  try {
+    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
+    // console.log('getuser', user)
+    return user.rows[0];
+     
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
+  }
+}
 
 export async function getRoom() {
     
@@ -10,7 +26,6 @@ export async function getRooms() {
 }
 
 export async function fetchRoomsList() {
-  console.log('fetchRoomsList')
     noStore()
     try {
         const data = await sql`

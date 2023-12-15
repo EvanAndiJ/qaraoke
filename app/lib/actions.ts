@@ -24,7 +24,6 @@ const SignupFormSchema = z.object({
   // }),
   date: z.string(),
 });
-
 export type State = {
   errors?: {
     username?: string[];
@@ -88,8 +87,8 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    const user = await signIn('credentials', Object.fromEntries(formData));
-    console.log('authenticate', user)
+    console.log('authenticate')
+    await signIn('credentials', {...Object.fromEntries(formData), redirectTo:'/dash'});
     
   } catch (error) {
     if ((error as Error).message.includes('CredentialsSignin')) {
