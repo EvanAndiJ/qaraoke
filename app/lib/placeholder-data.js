@@ -7,6 +7,7 @@ const users = [
       name: 'user',
       email: 'user@asleepies.com',
       password: 'fuckers!',
+      bio: 'Butts butts butts. Butts butts butts. Butts butts butts. Butts butts butts. Butts butts butts.',
       created: '2023-11-28T22:15:13.308Z',
       updated: '2023-11-28T22:15:13.308Z'
     },
@@ -16,6 +17,7 @@ const users = [
       name: 'guest',
       email: 'guest@asleepies.com',
       password: 'fuckers!',
+      bio: 'Butts butts butts. Butts butts butts. Butts butts butts. Butts butts butts. Butts butts butts.',
       created: '2023-11-28T22:15:13.308Z',
       updated: '2023-11-28T22:15:13.308Z'
     },

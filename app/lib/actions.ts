@@ -1,12 +1,17 @@
 'use server'
 
 import {z} from 'zod';
+import bcrypt from 'bcrypt'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { signIn } from '../../auth';
 import { sql } from '@vercel/postgres';
+
+import signIn  from '../../auth';
+// import { signIn } from "next-auth/react
+
 import type { User } from './definitions';
-import bcrypt from 'bcrypt'
+
+
 
 const SignupFormSchema = z.object({
   // id: z.string(),
@@ -24,7 +29,7 @@ const SignupFormSchema = z.object({
   // }),
   date: z.string(),
 });
-export type State = {
+export type SignUpFormState = {
   errors?: {
     username?: string[];
     name?: string[];
@@ -34,8 +39,7 @@ export type State = {
   message?: string | null;
 };
 const SignupForm = SignupFormSchema.omit({ id: true, date: true });
-
-export async function signup ( prevState: State, formData: FormData,) {
+export async function signup ( prevState: SignUpFormState, formData: FormData,) {
   console.log('signup')
   const validatedFields = SignupForm.safeParse({
     username: formData.get('username'),
@@ -82,18 +86,98 @@ export async function signup ( prevState: State, formData: FormData,) {
   redirect('/login'); 
 }
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
+// ** CREATE ROOM **
+export type CreateRoomState = {
+  errors?: {
+    hostId?: string[];
+    name?: string[];
+    loc?: string[];
+    date?: string[];
+  };
+  message?: string | null;
+};
+const CreateRoomFormSchema = z.object({
+  // id: z.string(),
+  hostId: z.string(),
+  name: z.string({
+    invalid_type_error: 'Please enter a name for your room.',
+  }),
+  loc: z.string({
+    invalid_type_error: 'Please enter a location.',
+  }),
+  date: z.string({
+    invalid_type_error: 'Please enter a date.',
+  }),
+});  
+// const CreateRoom = CreateRoomFormSchema.omit({ id: true });
+export async function createRoom(prevState: CreateRoomState, formData: FormData) {
+  
+  const validatedFields = CreateRoomFormSchema.safeParse({
+    hostId: formData.get('hostId'),
+    name: formData.get('name'),
+    loc: formData.get('loc'),
+    date: formData.get('date'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Room.',
+    };
+  }
+
+  const { hostId, name, loc, date } = validatedFields.data;
+  // const amountInCents = amount * 100;
+  // const date = new Date().toISOString().split('T')[0];
+
   try {
-    console.log('authenticate')
-    await signIn('credentials', {...Object.fromEntries(formData), redirectTo:'/dash'});
-    
+    await sql`
+    INSERT INTO rooms (host_id, name, loc, date)
+    VALUES (${hostId}, ${name}, ${loc}, ${date})
+    `;
   } catch (error) {
-    if ((error as Error).message.includes('CredentialsSignin')) {
-      return 'CredentialsSignin';
+    return {
+      message: 'Database Error: Failed to Create Invoice.',
+    };
+  }
+
+  revalidatePath('/dash/rooms');
+  redirect('/dash/rooms');
+}
+
+// ** SEARCH ** 
+const SearchAllSchema = z.object({
+  search: z.string()
+})
+export type SearchAllState = {
+  errors?: {
+    search?: string[];
+  };
+  message?: string | null;
+};
+export async function searchAll(prevState: SearchAllState, formData: FormData ) {
+  const validatedFields = SearchAllSchema.safeParse({
+    search: formData.get('search'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Room.',
+    };
+  }
+  const {search} = validatedFields.data
+
+
+  try {
+    await sql`
+      FIND * FROM rooms
+      WHERE name = ${search.trim()}
+    `
+  } catch (error) {
+    return {
+      error,
+      message: "something went wrong",
     }
-    throw error;
   }
 }

@@ -1,13 +1,11 @@
-import NavMenu from "../ui/NavMenu";
+// import NavMenu from "../ui/search-home";
+import NavBar from "../ui/nav/navbar"
 
 export default function AuthLayout({ children }:{children: React.ReactNode}) {
   return (
     <main>
-      <div>
-          <h1>Qaraoke</h1>
-      </div>
-      <NavMenu/>
+      <NavBar/>
       {children} 
-      </main>
+    </main>
   )
 }
